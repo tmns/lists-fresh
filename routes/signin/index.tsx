@@ -1,4 +1,29 @@
+import { HandlerContext } from '$fresh/server.ts'
+import { User, State } from 'utils/types.ts'
+
 import OAuthOptions from '../../islands/OAuthOptions.tsx'
+import { getUserBySession } from '../../utils/db.ts'
+
+type Data = SignedInData | null
+
+interface SignedInData {
+  user: User
+}
+
+export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
+  if (ctx.state.session) {
+    const user = await getUserBySession(ctx.state.session)
+
+    if (user) {
+      return new Response(null, {
+        status: 303,
+        headers: { location: '/lists' },
+      })
+    }
+  }
+
+  return ctx.render()
+}
 
 export default function Signin() {
   return (
