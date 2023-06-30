@@ -187,7 +187,7 @@ function ToggleItemCheck(props: ToggleItemCheckProps) {
     <button
       type="button"
       class={`flex h-5 w-5 items-center justify-center rounded transition-colors duration-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
-        props.isChecked ? 'bg-[#6466f1]' : 'bg-zinc-900'
+        props.isChecked ? 'bg-[#6466f1]' : 'bg-slate-800'
       }`}
       defaultChecked={props.isChecked}
       checked={props.isChecked}

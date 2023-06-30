@@ -1,6 +1,6 @@
 // General approach taken from https://github.com/denoland/tic-tac-toe
 
-import { Item, List, OauthSession, User } from './types.ts'
+import { Item, List, OauthSession, User, Note } from './types.ts'
 
 const kv = await Deno.openKv()
 
@@ -196,6 +196,69 @@ export function subscribeItemsByList(listId: string, cb: (items: Item[]) => void
       if ((lastVersionstamps.get(items) ?? '') >= versionstamp) return
       lastVersionstamps.set(items, versionstamp)
       cb(items)
+    }
+  })
+  return () => {
+    closed = true
+    bc.close()
+  }
+}
+
+//////////////////////////////////////////////////////////////////
+// Notes
+//////////////////////////////////////////////////////////////////
+
+export async function setNoteWithUser(note: Note) {
+  const ao = kv.atomic()
+
+  const res = await ao
+    .set(['notes', note.id], note)
+    .set(['notes_by_userId', note.userId, note.id], note)
+    .commit()
+
+  if (res.ok) {
+    console.log('broadcasting note update', note.id, res.versionstamp)
+    const bc = new BroadcastChannel(`notes/${note.userId}`)
+    bc.postMessage({ note, versionstamp: res!.versionstamp })
+    setTimeout(() => bc.close(), 5)
+  }
+
+  return res.ok
+}
+
+export async function getNoteById(id: string): Promise<Note> {
+  const res = await kv.get<Note>(['notes', id])
+  return res.value
+}
+
+export async function getNotesByUserId(userId: string): Promise<Note[]> {
+  const iter = kv.list<Note>({ prefix: ['notes_by_userId', userId] })
+
+  const notes = []
+  for await (const { value } of iter) {
+    notes.push(value)
+  }
+  return notes
+}
+
+export function subscribeNotesById(noteId: string, cb: (note: Note) => void) {
+  const bc = new BroadcastChannel(`notes/${noteId}`)
+  let closed = false
+  getNoteById(noteId).then((note) => {
+    if (closed) return
+    cb(note)
+    const lastVersionstamps = new Map<string, string>()
+    bc.onmessage = (e) => {
+      const { note, versionstamp } = e.data
+      console.log(
+        'received notes_by_id update',
+        note.id,
+        versionstamp,
+        `(last: ${lastVersionstamps.get(note.id)})`,
+      )
+      if ((lastVersionstamps.get(note.id) ?? '') >= versionstamp) return
+      lastVersionstamps.set(note.id, versionstamp)
+      cb(note)
     }
   })
   return () => {

@@ -6,15 +6,18 @@ import * as $0 from "./routes/_app.tsx";
 import * as $1 from "./routes/_middleware.ts";
 import * as $2 from "./routes/api/events/items.ts";
 import * as $3 from "./routes/api/events/lists.ts";
-import * as $4 from "./routes/api/item.ts";
-import * as $5 from "./routes/api/list.ts";
-import * as $6 from "./routes/auth/callback/[provider].ts";
-import * as $7 from "./routes/auth/signin.ts";
-import * as $8 from "./routes/auth/signout.ts";
-import * as $9 from "./routes/index.tsx";
-import * as $10 from "./routes/lists/[id]/index.tsx";
-import * as $11 from "./routes/lists/index.tsx";
-import * as $12 from "./routes/signin/index.tsx";
+import * as $4 from "./routes/api/events/notes.ts";
+import * as $5 from "./routes/api/item.ts";
+import * as $6 from "./routes/api/list.ts";
+import * as $7 from "./routes/api/note.ts";
+import * as $8 from "./routes/auth/callback/[provider].ts";
+import * as $9 from "./routes/auth/signin.ts";
+import * as $10 from "./routes/auth/signout.ts";
+import * as $11 from "./routes/index.tsx";
+import * as $12 from "./routes/lists/[id]/index.tsx";
+import * as $13 from "./routes/lists/index.tsx";
+import * as $14 from "./routes/notes/index.tsx";
+import * as $15 from "./routes/signin/index.tsx";
 import * as $$0 from "./islands/Message.tsx";
 import * as $$1 from "./islands/OAuthOptions.tsx";
 import * as $$2 from "./islands/UserMenu.tsx";
@@ -26,6 +29,7 @@ import * as $$7 from "./islands/list/List.tsx";
 import * as $$8 from "./islands/list/Lists.tsx";
 import * as $$9 from "./islands/list/MobileSideNav.tsx";
 import * as $$10 from "./islands/list/NewListForm.tsx";
+import * as $$11 from "./islands/notes/Editor.tsx";
 
 const manifest = {
   routes: {
@@ -33,15 +37,18 @@ const manifest = {
     "./routes/_middleware.ts": $1,
     "./routes/api/events/items.ts": $2,
     "./routes/api/events/lists.ts": $3,
-    "./routes/api/item.ts": $4,
-    "./routes/api/list.ts": $5,
-    "./routes/auth/callback/[provider].ts": $6,
-    "./routes/auth/signin.ts": $7,
-    "./routes/auth/signout.ts": $8,
-    "./routes/index.tsx": $9,
-    "./routes/lists/[id]/index.tsx": $10,
-    "./routes/lists/index.tsx": $11,
-    "./routes/signin/index.tsx": $12,
+    "./routes/api/events/notes.ts": $4,
+    "./routes/api/item.ts": $5,
+    "./routes/api/list.ts": $6,
+    "./routes/api/note.ts": $7,
+    "./routes/auth/callback/[provider].ts": $8,
+    "./routes/auth/signin.ts": $9,
+    "./routes/auth/signout.ts": $10,
+    "./routes/index.tsx": $11,
+    "./routes/lists/[id]/index.tsx": $12,
+    "./routes/lists/index.tsx": $13,
+    "./routes/notes/index.tsx": $14,
+    "./routes/signin/index.tsx": $15,
   },
   islands: {
     "./islands/Message.tsx": $$0,
@@ -55,6 +62,7 @@ const manifest = {
     "./islands/list/Lists.tsx": $$8,
     "./islands/list/MobileSideNav.tsx": $$9,
     "./islands/list/NewListForm.tsx": $$10,
+    "./islands/notes/Editor.tsx": $$11,
   },
   baseUrl: import.meta.url,
 };

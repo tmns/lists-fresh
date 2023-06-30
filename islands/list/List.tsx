@@ -71,8 +71,8 @@ export default function List(props: ListProps) {
     <li
       class={`relative group/item flex cursor-pointer items-center justify-between rounded-sm text-left text-sm font-semibold leading-6 ${
         currentListId === props.list.id
-          ? 'bg-gray-800 text-white'
-          : 'text-gray-400 transition-colors duration-300 hover:bg-gray-800 hover:text-white'
+          ? 'bg-[#0d112f] text-white'
+          : 'text-gray-400 transition-colors duration-300 hover:bg-[#0d112f] hover:text-white'
       }`}
     >
       {isEditing ? (
@@ -107,7 +107,7 @@ export default function List(props: ListProps) {
             <a href={`/lists/${props.list.id}`} class="flex-1">
               <span class="truncate">{props.list.name}</span>
             </a>
-            <Menu.Button className="flex h-4 place-items-center rounded-sm opacity-0 transition-colors duration-300 hover:bg-zinc-600 hover:text-white group-focus-within/item:opacity-100 group-hover/item:opacity-100">
+            <Menu.Button className="flex h-4 place-items-center rounded-sm opacity-0 transition-colors duration-300 hover:bg-gray-800 hover:text-white group-focus-within/item:opacity-100 group-hover/item:opacity-100">
               <EllipsisHorizontalIcon styles="h-6 w-6" aria-hidden />
               <span class="sr-only">Options</span>
             </Menu.Button>
@@ -121,7 +121,7 @@ export default function List(props: ListProps) {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Menu.Items className="z-50 w-56 rounded-md bg-gray-900 p-2 text-sm text-white ring-1 ring-black ring-opacity-5 drop-shadow-xl focus:outline-none">
+              <Menu.Items className="w-56 rounded-md bg-gray-900 p-2 text-sm text-white ring-1 ring-black ring-opacity-5 drop-shadow-xl focus:outline-none">
                 <DeleteOption listId={props.list.id} />
                 <Menu.Item>
                   <button

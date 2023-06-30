@@ -28,3 +28,11 @@ export interface Item {
   isChecked: boolean
   createdAt: string
 }
+
+export interface Note {
+  id: string
+  content: string
+  userId: string
+  instanceId: string
+  createdAt: string
+}

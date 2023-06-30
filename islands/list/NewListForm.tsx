@@ -100,7 +100,7 @@ export default function NewListForm(props: NewListFormProps) {
         </>
       ) : (
         <button
-          class="flex w-full items-center p-4 pl-1 transition-colors duration-300 hover:bg-gray-800 hover:text-white"
+          class="rounded-md flex w-full items-center p-4 pl-1 transition-colors duration-300 hover:bg-[#0d112f] hover:text-white"
           onClick={() => setIsCreating(true)}
         >
           <PlusIcon styles="h-5 w-5" aria-hidden />
