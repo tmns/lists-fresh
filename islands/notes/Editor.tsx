@@ -23,27 +23,11 @@ export default function EditorComponent(props: EditorProps) {
     editorProps: {
       attributes: {
         class:
-          'prose prose-sm sm:prose lg:prose-lg text-neutral-300 mx-auto focus:outline-none p-2 rounded-b-md h-100vh overflow-y-auto max-h-[calc(100vh_-_74px)]',
+          'prose prose-sm sm:prose lg:prose-lg prose-p:text-white prose-headings:text-red-700 prose-code:text-red-700 prose-pre:text-red-700 prose-code:bg-slate-900 prose-pre:bg-slate-900 mx-auto focus:outline-none py-6 px-2  rounded-b-md h-100vh overflow-y-auto max-h-[calc(100vh_-_74px)]',
       },
     },
     extensions: [
-      StarterKit.configure({
-        code: {
-          HTMLAttributes: {
-            class: 'bg-slate-900 text-red-700',
-          },
-        },
-        codeBlock: {
-          HTMLAttributes: {
-            class: 'bg-slate-900 text-red-700',
-          },
-        },
-        heading: {
-          HTMLAttributes: {
-            class: 'text-red-700',
-          },
-        },
-      }),
+      StarterKit,
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') return `H${node.attrs.level}`
