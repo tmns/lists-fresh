@@ -107,7 +107,7 @@ export default function List(props: ListProps) {
             <a href={`/lists/${props.list.id}`} class="flex-1">
               <span class="truncate">{props.list.name}</span>
             </a>
-            <Menu.Button className="flex h-4 place-items-center rounded-sm opacity-0 transition-colors duration-300 hover:bg-gray-800 hover:text-white group-focus-within/item:opacity-100 group-hover/item:opacity-100">
+            <Menu.Button className="flex h-4 place-items-center rounded-sm [@media(hover:hover)]:opacity-0 transition-colors duration-300 hover:bg-gray-800 hover:text-white group-focus-within/item:opacity-100 group-hover/item:opacity-100">
               <EllipsisHorizontalIcon styles="h-6 w-6" aria-hidden />
               <span class="sr-only">Options</span>
             </Menu.Button>

@@ -61,7 +61,7 @@ export default function EditorComponent(props: EditorProps) {
   }, [])
 
   useEffect(() => {
-    if (!editor) return null
+    if (!editor) return
     editor.commands.setContent(content)
   }, [editor, content])
 

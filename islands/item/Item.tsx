@@ -7,6 +7,8 @@ import TrashIcon from 'components/icons/TrashIcon.tsx'
 import XMarkIcon from 'components/icons/XMarkIcon.tsx'
 import { Item } from 'utils/types.ts'
 import Message from 'islands/Message.tsx'
+import ClipboardDocumentCheckIcon from '../../components/icons/ClipboardDocumentCheckIcon.tsx'
+import ClipboardDocumentIcon from '../../components/icons/ClipboardDocumentIcon.tsx'
 
 type ItemProps = {
   item: Item
@@ -20,8 +22,14 @@ type UpdateTitleElements = HTMLFormControlsCollection & {
 export default function Item(props: ItemProps) {
   const editTitleInputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
+  const [titleCopied, setTitleCopied] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!isEditing) return
+    editTitleInputRef.current?.select()
+  }, [isEditing])
 
   async function updateTitle(e: JSX.TargetedEvent<HTMLFormElement, Event>) {
     e.preventDefault()
@@ -59,13 +67,14 @@ export default function Item(props: ItemProps) {
     setIsEditing(true)
   }
 
-  useEffect(() => {
-    if (!isEditing) return
-    editTitleInputRef.current?.select()
-  }, [isEditing])
-
   function closeOnEsc(e: KeyboardEvent) {
     if (e.key === 'Escape') setIsEditing(false)
+  }
+
+  async function copyTitle() {
+    await navigator.clipboard.writeText(props.item.title)
+    setTitleCopied(true)
+    setTimeout(() => setTitleCopied(false), 500)
   }
 
   return (
@@ -89,7 +98,7 @@ export default function Item(props: ItemProps) {
         </form>
       ) : (
         <span
-          class={`ml-4 ${
+          class={`ml-4 truncate text-ellipsis ${
             props.item.isChecked ? 'text-zinc-400' : ''
           } transition-colors duration-300`}
         >
@@ -98,7 +107,7 @@ export default function Item(props: ItemProps) {
       )}
       <div
         class={`${
-          isEditing ? 'opacity-100' : 'opacity-0'
+          isEditing ? 'opacity-100' : '[@media(hover:hover)]:opacity-0'
         } ml-auto flex items-center focus-within:opacity-100 group-hover:opacity-100`}
       >
         {isEditing ? (
@@ -119,10 +128,26 @@ export default function Item(props: ItemProps) {
             </button>
           </>
         ) : (
-          <button class="p-2 text-zinc-400 hover:text-white" onClick={showEditTitleInput}>
-            <PencilIcon styles="h-4 w-4  transition-colors duration-300 " aria-hidden />
-            <span class="sr-only">Edit item title</span>
-          </button>
+          <>
+            <button class="p-2 text-zinc-400 hover:text-white" onClick={copyTitle}>
+              {titleCopied ? (
+                <ClipboardDocumentCheckIcon
+                  styles="h-4 w-4 transition-colors duration-300 "
+                  aria-hidden
+                />
+              ) : (
+                <ClipboardDocumentIcon
+                  styles="h-4 w-4 transition-colors duration-300 "
+                  aria-hidden
+                />
+              )}
+              <span class="sr-only">Copy item title</span>
+            </button>
+            <button class="p-2 text-zinc-400 hover:text-white" onClick={showEditTitleInput}>
+              <PencilIcon styles="h-4 w-4  transition-colors duration-300 " aria-hidden />
+              <span class="sr-only">Edit item title</span>
+            </button>
+          </>
         )}
         <DeleteItemBtn id={props.item.id} />
       </div>
@@ -186,7 +211,7 @@ function ToggleItemCheck(props: ToggleItemCheckProps) {
   return (
     <button
       type="button"
-      class={`flex h-5 w-5 items-center justify-center rounded transition-colors duration-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
+      class={`flex shrink-0 basis-5 h-5 w-5 items-center justify-center rounded transition-colors duration-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
         props.isChecked ? 'bg-[#6466f1]' : 'bg-slate-800'
       }`}
       defaultChecked={props.isChecked}
