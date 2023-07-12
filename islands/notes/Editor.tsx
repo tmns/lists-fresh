@@ -84,18 +84,26 @@ export default function EditorComponent(props: EditorProps) {
 }
 
 type UpdateNoteFetch = (editor: Editor, id: string, instanceId: string) => Promise<void>
+let controller: AbortController
 
 const debouncedFetch = debounce(async (editor, id, instanceId) => {
   const content = editor.getJSON()
 
   try {
+    if (controller) controller.abort()
+
+    controller = new AbortController()
+    const signal = controller.signal
+
     const data = { id, content, instanceId }
     await fetch('/api/note', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      signal,
     })
   } catch (e) {
+    if (e.name === 'AbortError') return
     console.error(e)
   }
 }, 400)
