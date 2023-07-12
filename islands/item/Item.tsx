@@ -195,7 +195,11 @@ type ToggleItemCheckProps = {
 }
 
 function ToggleItemCheck(props: ToggleItemCheckProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   async function toggleItemCheck() {
+    setIsSubmitting(true)
+
     try {
       const data = { isChecked: !props.isChecked, itemId: props.id }
       await fetch('/api/item', {
@@ -205,26 +209,30 @@ function ToggleItemCheck(props: ToggleItemCheckProps) {
       })
     } catch (e) {
       console.error(e)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <button
-      type="button"
-      class={`flex shrink-0 basis-5 h-5 w-5 items-center justify-center rounded transition-colors duration-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
-        props.isChecked ? 'bg-[#6466f1]' : 'bg-slate-800'
-      }`}
-      defaultChecked={props.isChecked}
-      checked={props.isChecked}
-      onClick={toggleItemCheck}
-      role="checkbox"
-      aria-checked={props.isChecked}
-    >
-      {props.isChecked && (
-        <span class="pointer-events-none">
-          <CheckIcon styles="h-4 w-4 self-center text-white" />
-        </span>
-      )}
-    </button>
+    <LoadingIndicator styles={{ width: '1.25rem' }} isLoading={isSubmitting}>
+      <button
+        type="button"
+        class={`flex shrink-0 basis-5 h-5 w-5 items-center justify-center rounded transition-colors duration-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
+          props.isChecked ? 'bg-[#6466f1]' : 'bg-slate-800'
+        }`}
+        defaultChecked={props.isChecked}
+        checked={props.isChecked}
+        onClick={toggleItemCheck}
+        role="checkbox"
+        aria-checked={props.isChecked}
+      >
+        {props.isChecked && (
+          <span class="pointer-events-none">
+            <CheckIcon styles="h-4 w-4 self-center text-white" />
+          </span>
+        )}
+      </button>
+    </LoadingIndicator>
   )
 }
