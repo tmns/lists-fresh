@@ -1,17 +1,23 @@
 import { Head } from '$fresh/runtime.ts'
+import type { Editor, SingleCommands } from '@tiptap/core'
 import Focus from '@tiptap/extension-focus'
 import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
-import { Editor, EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useMemo, useState } from 'preact/hooks'
+import { useDataSubscription } from 'utils/hooks.ts'
 import { Note } from 'utils/types.ts'
 import { v4 } from 'v4'
-import { useDataSubscription } from 'utils/hooks.ts'
 
 interface EditorProps {
   note: Note
+}
+
+type ExtendedCommands = SingleCommands & {
+  focus: (position: string) => void
+  setContent: (content: string) => void
 }
 
 export default function EditorComponent(props: EditorProps) {
@@ -44,6 +50,10 @@ export default function EditorComponent(props: EditorProps) {
     onUpdate({ editor }) {
       debouncedFetch(editor, props.note.id, instanceId)
     },
+    onCreate({ editor }) {
+      const commands = editor.commands as ExtendedCommands
+      commands.focus('end')
+    },
   })
 
   // General approach taken from https://github.com/denoland/tic-tac-toe
@@ -62,7 +72,9 @@ export default function EditorComponent(props: EditorProps) {
 
   useEffect(() => {
     if (!editor) return
-    editor.commands.setContent(content)
+
+    const commands = editor.commands as ExtendedCommands
+    commands.setContent(content)
   }, [editor, content])
 
   return (
