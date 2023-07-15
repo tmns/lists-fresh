@@ -10,7 +10,7 @@ type UserProps = {
 export default function UserMenu({ user }: UserProps) {
   return (
     <Menu>
-      <Menu.Button className="-m-1.5 mr-2 flex items-center p-1.5">
+      <Menu.Button className="-m-1.5 flex items-center p-1.5">
         <span className="sr-only">Open user menu</span>
         <img
           class="h-8 w-8 rounded-full bg-gray-50"

@@ -16,7 +16,7 @@ export default function SideNav(props: SideNavProps) {
       class={
         isMobile
           ? 'fixed inset-y-0 z-50 flex w-72 flex-col'
-          : 'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col'
+          : 'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col shadow-[1px_0px_0px_rgb(255,255,255,.09)]'
       }
     >
       <div class="flex grow flex-col overflow-visible bg-[#010524] px-6 pb-4">

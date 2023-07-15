@@ -64,7 +64,7 @@ export default function NewListForm(props: NewListFormProps) {
   }, [isCreating])
 
   return (
-    <div class="relative mt-auto w-full text-start text-gray-400 shadow-subtle-t">
+    <div class="relative mt-auto w-full text-start text-gray-400 shadow-[0px_-1px_0px_rgb(255,255,255,.09)]">
       {isCreating ? (
         <>
           <button
