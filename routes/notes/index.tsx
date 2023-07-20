@@ -1,8 +1,8 @@
-import { HandlerContext, PageProps } from '$fresh/server.ts'
-import { v4 } from 'v4'
+import { HandlerContext } from '$fresh/server.ts'
 import Dashboard from 'components/Dashboard.tsx'
 import { getListsByUserId, getNotesByUserId, getUserBySession, setNoteWithUser } from 'utils/db.ts'
-import { Note, List, State, User } from 'utils/types.ts'
+import { List, Note, State, User } from 'utils/types.ts'
+import { v4 } from 'v4'
 import Editor from '../../islands/notes/Editor.tsx'
 
 type Data = SignedInData | null
@@ -13,7 +13,7 @@ interface SignedInData {
   note: Note
 }
 
-export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
+export default async function Lists(req: Request, ctx: HandlerContext<Data, State>) {
   if (!ctx.state.session) {
     return new Response(null, {
       status: 303,
@@ -46,14 +46,10 @@ export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
     setNoteWithUser(note)
   }
 
-  return ctx.render({ user, lists: sortedLists, note })
-}
-
-export default function Lists(props: PageProps<Data>) {
   return (
-    <Dashboard user={props.data!.user} lists={props.data!.lists}>
+    <Dashboard user={user} lists={sortedLists}>
       <div class="p-4">
-        <Editor note={props.data!.note} />
+        <Editor note={note} />
       </div>
     </Dashboard>
   )

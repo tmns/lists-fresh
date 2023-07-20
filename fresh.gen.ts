@@ -18,18 +18,11 @@ import * as $12 from "./routes/lists/[id]/index.tsx";
 import * as $13 from "./routes/lists/index.tsx";
 import * as $14 from "./routes/notes/index.tsx";
 import * as $15 from "./routes/signin/index.tsx";
-import * as $$0 from "./islands/Message.tsx";
+import * as $$0 from "./islands/Misc.tsx";
 import * as $$1 from "./islands/OAuthOptions.tsx";
-import * as $$2 from "./islands/UserMenu.tsx";
-import * as $$3 from "./islands/item/Item.tsx";
-import * as $$4 from "./islands/item/Items.tsx";
-import * as $$5 from "./islands/item/NewItemForm.tsx";
-import * as $$6 from "./islands/list/DeleteOption.tsx";
-import * as $$7 from "./islands/list/List.tsx";
-import * as $$8 from "./islands/list/Lists.tsx";
-import * as $$9 from "./islands/list/MobileSideNav.tsx";
-import * as $$10 from "./islands/list/NewListForm.tsx";
-import * as $$11 from "./islands/notes/Editor.tsx";
+import * as $$2 from "./islands/item/Item.tsx";
+import * as $$3 from "./islands/list/List.tsx";
+import * as $$4 from "./islands/notes/Editor.tsx";
 
 const manifest = {
   routes: {
@@ -51,18 +44,11 @@ const manifest = {
     "./routes/signin/index.tsx": $15,
   },
   islands: {
-    "./islands/Message.tsx": $$0,
+    "./islands/Misc.tsx": $$0,
     "./islands/OAuthOptions.tsx": $$1,
-    "./islands/UserMenu.tsx": $$2,
-    "./islands/item/Item.tsx": $$3,
-    "./islands/item/Items.tsx": $$4,
-    "./islands/item/NewItemForm.tsx": $$5,
-    "./islands/list/DeleteOption.tsx": $$6,
-    "./islands/list/List.tsx": $$7,
-    "./islands/list/Lists.tsx": $$8,
-    "./islands/list/MobileSideNav.tsx": $$9,
-    "./islands/list/NewListForm.tsx": $$10,
-    "./islands/notes/Editor.tsx": $$11,
+    "./islands/item/Item.tsx": $$2,
+    "./islands/list/List.tsx": $$3,
+    "./islands/notes/Editor.tsx": $$4,
   },
   baseUrl: import.meta.url,
 };

@@ -1,6 +1,6 @@
-import { HandlerContext, PageProps } from '$fresh/server.ts'
+import { HandlerContext } from '$fresh/server.ts'
 import Dashboard from 'components/Dashboard.tsx'
-import Items from 'islands/item/Items.tsx'
+import { Items } from 'islands/item/Item.tsx'
 import { getItemsByListId, getListById, getListsByUserId, getUserBySession } from 'utils/db.ts'
 import { Item, List, State, User } from 'utils/types.ts'
 
@@ -12,7 +12,7 @@ interface SignedInData {
   items: Item[]
 }
 
-export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
+export default async function ListsWithItems(req: Request, ctx: HandlerContext<Data, State>) {
   if (!ctx.state.session) {
     return new Response(null, {
       status: 303,
@@ -42,13 +42,9 @@ export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
   const sortedLists = lists.sort((a, b) => a.createdAt?.localeCompare(b.createdAt))
   const sortedItems = items.sort((a, b) => a.createdAt?.localeCompare(b.createdAt))
 
-  return ctx.render({ user, lists: sortedLists, items: sortedItems })
-}
-
-export default function ListsWithItems(props: PageProps<Data>) {
   return (
-    <Dashboard user={props.data!.user} lists={props.data!.lists}>
-      <Items items={props.data!.items} />
+    <Dashboard user={user} lists={sortedLists}>
+      <Items items={sortedItems} />
     </Dashboard>
   )
 }

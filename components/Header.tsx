@@ -1,4 +1,4 @@
-import UserMenu from 'islands/UserMenu.tsx'
+import { UserMenu } from 'islands/Misc.tsx'
 import { User } from 'utils/types.ts'
 
 interface HeaderProps {

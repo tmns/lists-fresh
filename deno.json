@@ -8,7 +8,7 @@
     "utils/": "./utils/",
     "islands/": "./islands/",
     "components/": "./components/",
-    "$fresh/": "https://deno.land/x/fresh@1.2.0/",
+    "$fresh/": "https://deno.land/x/fresh@1.3.0/",
     "react": "https://esm.sh/preact@10.15.1/compat",
     "react-dom": "https://esm.sh/preact@10.15.1/compat",
     "preact": "https://esm.sh/preact@10.15.1",

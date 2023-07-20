@@ -1,5 +1,4 @@
-import Lists from 'islands/list/Lists.tsx'
-import NewListForm from 'islands/list/NewListForm.tsx'
+import { Lists, NewListForm } from 'islands/list/List.tsx'
 import { List } from 'utils/types.ts'
 
 interface SideNavProps {

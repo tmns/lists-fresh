@@ -1,4 +1,4 @@
-import { HandlerContext, PageProps } from '$fresh/server.ts'
+import { HandlerContext } from '$fresh/server.ts'
 import Dashboard from 'components/Dashboard.tsx'
 import { getListsByUserId, getUserBySession } from 'utils/db.ts'
 import { List, State, User } from 'utils/types.ts'
@@ -10,7 +10,7 @@ interface SignedInData {
   lists: List[]
 }
 
-export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
+export default async function Lists(req: Request, ctx: HandlerContext<Data, State>) {
   if (!ctx.state.session) {
     return new Response(null, {
       status: 303,
@@ -31,12 +31,8 @@ export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
 
   const sortedLists = lists.sort((a, b) => a.createdAt?.localeCompare(b.createdAt))
 
-  return ctx.render({ user, lists: sortedLists })
-}
-
-export default function Lists(props: PageProps<Data>) {
   return (
-    <Dashboard user={props.data!.user} lists={props.data!.lists}>
+    <Dashboard user={user} lists={sortedLists}>
       <div class="p-4">
         <p>Welcome! Add a new list or select an existing one to see its items!</p>
       </div>

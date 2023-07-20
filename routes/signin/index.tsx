@@ -1,8 +1,7 @@
 import { HandlerContext } from '$fresh/server.ts'
-import { User, State } from 'utils/types.ts'
-
-import OAuthOptions from '../../islands/OAuthOptions.tsx'
-import { getUserBySession } from '../../utils/db.ts'
+import OAuthOptions from 'islands/OAuthOptions.tsx'
+import { getUserBySession } from 'utils/db.ts'
+import { State, User } from 'utils/types.ts'
 
 type Data = SignedInData | null
 
@@ -10,7 +9,7 @@ interface SignedInData {
   user: User
 }
 
-export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
+export default async function Signin(req: Request, ctx: HandlerContext<Data, State>) {
   if (ctx.state.session) {
     const user = await getUserBySession(ctx.state.session)
 
@@ -22,10 +21,6 @@ export async function handler(req: Request, ctx: HandlerContext<Data, State>) {
     }
   }
 
-  return ctx.render()
-}
-
-export default function Signin() {
   return (
     <main class="flex flex-col items-center justify-center gap-12 px-4 py-16">
       <div class="sm:mx-auto sm:w-full sm:max-w-md">

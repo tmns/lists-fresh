@@ -1,12 +1,14 @@
-import { JSX } from 'preact'
-import { useEffect, useRef, useState } from 'preact/hooks'
 import LoadingIndicator from 'components/LoadingIndicator.tsx'
 import CheckIcon from 'components/icons/CheckIcon.tsx'
 import PencilIcon from 'components/icons/PencilIcon.tsx'
+import PlusIcon from 'components/icons/PlusIcon.tsx'
 import TrashIcon from 'components/icons/TrashIcon.tsx'
 import XMarkIcon from 'components/icons/XMarkIcon.tsx'
+import { Message } from 'islands/Misc.tsx'
+import { JSX } from 'preact'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import { useDataSubscription } from 'utils/hooks.ts'
 import { Item } from 'utils/types.ts'
-import Message from 'islands/Message.tsx'
 import ClipboardDocumentCheckIcon from '../../components/icons/ClipboardDocumentCheckIcon.tsx'
 import ClipboardDocumentIcon from '../../components/icons/ClipboardDocumentIcon.tsx'
 
@@ -19,7 +21,7 @@ type UpdateTitleElements = HTMLFormControlsCollection & {
   title: HTMLInputElement
 }
 
-export default function Item(props: ItemProps) {
+export function Item(props: ItemProps) {
   const editTitleInputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [titleCopied, setTitleCopied] = useState(false)
@@ -234,5 +236,120 @@ function ToggleItemCheck(props: ToggleItemCheckProps) {
         )}
       </button>
     </LoadingIndicator>
+  )
+}
+
+interface ItemsProps {
+  items: Item[]
+}
+
+export function Items(props: ItemsProps) {
+  const [items, setItems] = useState(props.items)
+
+  const path = window?.location?.pathname.split('/')
+  const listId = path?.[path?.length - 1]
+
+  // General approach taken from https://github.com/denoland/tic-tac-toe
+  useDataSubscription(() => {
+    const eventSource = new EventSource(`/api/events/items?listId=${encodeURIComponent(listId)}`)
+
+    eventSource.onmessage = (e) => {
+      const newItems = JSON.parse(e.data) as Item[]
+      const sortedItems = newItems.sort((a, b) => a.createdAt?.localeCompare(b.createdAt))
+      setItems(sortedItems)
+    }
+
+    return () => eventSource.close()
+  }, [listId])
+
+  return (
+    <>
+      <ul class="divide-y divide-zinc-400/40 px-3 sm:px-4 py-2 lg:px-2">
+        {items.length === 0 ? (
+          <li class="p-2">
+            This list doesn't have any items yet. Add some items by using the form below!
+          </li>
+        ) : (
+          items.map((item) => <Item key={item.id} items={items} item={item} />)
+        )}
+      </ul>
+      <NewItemForm listId={listId} items={items} />
+    </>
+  )
+}
+
+type NewItemFormProps = {
+  listId: string
+  items: Item[]
+}
+
+type AddItemElements = HTMLFormControlsCollection & {
+  title: HTMLInputElement
+}
+
+export function NewItemForm(props: NewItemFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState('')
+  const newItemInputRef = useRef<HTMLInputElement>(null)
+
+  async function addNewItem(e: JSX.TargetedEvent<HTMLFormElement, Event>) {
+    e.preventDefault()
+
+    setError('')
+
+    const newItemTitle = (e.currentTarget.elements as AddItemElements).title.value
+
+    if (props.items.some((item) => item.title === newItemTitle)) {
+      setError(
+        `You already have an item with the title "${newItemTitle}". Please choose another name.`,
+      )
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const data = { title: newItemTitle, listId: props.listId }
+      const res = await fetch('/api/item', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (res.ok) (e.target as HTMLFormElement).reset()
+    } catch (e) {
+      console.error(e)
+      newItemInputRef.current?.select()
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <div class="mt-auto px-5 sm:px-6 py-4 lg:px-4">
+      <form class="flex items-center" onSubmit={addNewItem}>
+        <label for="title">Add item</label>
+        <input
+          class="ml-4 flex-1 border-b border-zinc-400 bg-transparent px-2 transition-colors duration-300 hover:border-white focus:border-white"
+          ref={newItemInputRef}
+          type="text"
+          id="title"
+          name="title"
+          required
+        />
+        <button
+          class="flex items-center p-2 text-zinc-400 transition-colors duration-300 hover:text-white focus:text-white"
+          disabled={isSubmitting}
+        >
+          <LoadingIndicator
+            isLoading={isSubmitting}
+            styles={{ width: '1.25rem', height: '1.25rem' }}
+          >
+            <PlusIcon styles="h-5 w-5 " aria-hidden />
+          </LoadingIndicator>
+          <span class="sr-only">Add item</span>
+        </button>
+      </form>
+      <Message message={error} dismiss={() => setError('')} />
+    </div>
   )
 }

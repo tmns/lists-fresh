@@ -1,5 +1,5 @@
 import type { VNode } from 'preact'
-import MobileSideNav from 'islands/list/MobileSideNav.tsx'
+import { MobileSideNav } from 'islands/list/List.tsx'
 import { List, User } from 'utils/types.ts'
 import Header from 'components/Header.tsx'
 import SideNav from 'components/SideNav.tsx'
