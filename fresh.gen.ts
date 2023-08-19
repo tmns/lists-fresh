@@ -2,22 +2,24 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $0 from "./routes/_app.tsx";
-import * as $1 from "./routes/_middleware.ts";
-import * as $2 from "./routes/api/events/items.ts";
-import * as $3 from "./routes/api/events/lists.ts";
-import * as $4 from "./routes/api/events/notes.ts";
-import * as $5 from "./routes/api/item.ts";
-import * as $6 from "./routes/api/list.ts";
-import * as $7 from "./routes/api/note.ts";
-import * as $8 from "./routes/auth/callback/[provider].ts";
-import * as $9 from "./routes/auth/signin.ts";
-import * as $10 from "./routes/auth/signout.ts";
-import * as $11 from "./routes/index.tsx";
-import * as $12 from "./routes/lists/[id]/index.tsx";
-import * as $13 from "./routes/lists/index.tsx";
-import * as $14 from "./routes/notes/index.tsx";
-import * as $15 from "./routes/signin/index.tsx";
+import * as $0 from "./routes/(signed-in)/_layout.tsx";
+import * as $1 from "./routes/(signed-in)/lists/[id]/index.tsx";
+import * as $2 from "./routes/(signed-in)/lists/index.tsx";
+import * as $3 from "./routes/(signed-in)/notes/index.tsx";
+import * as $4 from "./routes/(signed-out)/signin/index.tsx";
+import * as $5 from "./routes/_app.tsx";
+import * as $6 from "./routes/_layout.tsx";
+import * as $7 from "./routes/_middleware.ts";
+import * as $8 from "./routes/api/events/items.ts";
+import * as $9 from "./routes/api/events/lists.ts";
+import * as $10 from "./routes/api/events/notes.ts";
+import * as $11 from "./routes/api/item.ts";
+import * as $12 from "./routes/api/list.ts";
+import * as $13 from "./routes/api/note.ts";
+import * as $14 from "./routes/auth/callback/[provider].ts";
+import * as $15 from "./routes/auth/signin.ts";
+import * as $16 from "./routes/auth/signout.ts";
+import * as $17 from "./routes/index.tsx";
 import * as $$0 from "./islands/Misc.tsx";
 import * as $$1 from "./islands/OAuthOptions.tsx";
 import * as $$2 from "./islands/item/Item.tsx";
@@ -26,22 +28,24 @@ import * as $$4 from "./islands/notes/Editor.tsx";
 
 const manifest = {
   routes: {
-    "./routes/_app.tsx": $0,
-    "./routes/_middleware.ts": $1,
-    "./routes/api/events/items.ts": $2,
-    "./routes/api/events/lists.ts": $3,
-    "./routes/api/events/notes.ts": $4,
-    "./routes/api/item.ts": $5,
-    "./routes/api/list.ts": $6,
-    "./routes/api/note.ts": $7,
-    "./routes/auth/callback/[provider].ts": $8,
-    "./routes/auth/signin.ts": $9,
-    "./routes/auth/signout.ts": $10,
-    "./routes/index.tsx": $11,
-    "./routes/lists/[id]/index.tsx": $12,
-    "./routes/lists/index.tsx": $13,
-    "./routes/notes/index.tsx": $14,
-    "./routes/signin/index.tsx": $15,
+    "./routes/(signed-in)/_layout.tsx": $0,
+    "./routes/(signed-in)/lists/[id]/index.tsx": $1,
+    "./routes/(signed-in)/lists/index.tsx": $2,
+    "./routes/(signed-in)/notes/index.tsx": $3,
+    "./routes/(signed-out)/signin/index.tsx": $4,
+    "./routes/_app.tsx": $5,
+    "./routes/_layout.tsx": $6,
+    "./routes/_middleware.ts": $7,
+    "./routes/api/events/items.ts": $8,
+    "./routes/api/events/lists.ts": $9,
+    "./routes/api/events/notes.ts": $10,
+    "./routes/api/item.ts": $11,
+    "./routes/api/list.ts": $12,
+    "./routes/api/note.ts": $13,
+    "./routes/auth/callback/[provider].ts": $14,
+    "./routes/auth/signin.ts": $15,
+    "./routes/auth/signout.ts": $16,
+    "./routes/index.tsx": $17,
   },
   islands: {
     "./islands/Misc.tsx": $$0,

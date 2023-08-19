@@ -1,9 +1,8 @@
 import { HandlerContext } from '$fresh/server.ts'
-import Dashboard from 'components/Dashboard.tsx'
-import { getListsByUserId, getNotesByUserId, getUserBySession, setNoteWithUser } from 'utils/db.ts'
+import { getNotesByUserId, getUserBySession, setNoteWithUser } from 'utils/db.ts'
 import { List, Note, State, User } from 'utils/types.ts'
 import { v4 } from 'v4'
-import Editor from '../../islands/notes/Editor.tsx'
+import Editor from 'islands/notes/Editor.tsx'
 
 type Data = SignedInData | null
 
@@ -13,7 +12,7 @@ interface SignedInData {
   note: Note
 }
 
-export default async function Lists(req: Request, ctx: HandlerContext<Data, State>) {
+export default async function Lists(_: Request, ctx: HandlerContext<Data, State>) {
   if (!ctx.state.session) {
     return new Response(null, {
       status: 303,
@@ -30,9 +29,7 @@ export default async function Lists(req: Request, ctx: HandlerContext<Data, Stat
     })
   }
 
-  const [lists, notes] = await Promise.all([getListsByUserId(user.id), getNotesByUserId(user.id)])
-
-  const sortedLists = lists.sort((a, b) => a.createdAt?.localeCompare(b.createdAt))
+  const notes = await getNotesByUserId(user.id)
 
   let note: Note | undefined = notes[0]
   if (!note) {
@@ -47,10 +44,8 @@ export default async function Lists(req: Request, ctx: HandlerContext<Data, Stat
   }
 
   return (
-    <Dashboard user={user} lists={sortedLists}>
-      <div class="p-4">
-        <Editor note={note} />
-      </div>
-    </Dashboard>
+    <div class="p-4">
+      <Editor note={note} />
+    </div>
   )
 }

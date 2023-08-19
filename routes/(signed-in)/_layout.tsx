@@ -1,16 +1,17 @@
-import { HandlerContext } from '$fresh/server.ts'
+import { LayoutContext, RouteConfig } from '$fresh/server.ts'
 import Dashboard from 'components/Dashboard.tsx'
-import { getListsByUserId, getUserBySession } from 'utils/db.ts'
-import { List, State, User } from 'utils/types.ts'
-
-type Data = SignedInData | null
+import { getUserBySession, getListsByUserId } from 'utils/db.ts'
+import { Item, List, State, User } from 'utils/types.ts'
 
 interface SignedInData {
   user: User
   lists: List[]
+  items: Item[]
 }
 
-export default async function Lists(req: Request, ctx: HandlerContext<Data, State>) {
+type Data = SignedInData | null
+
+export default async function Layout(_: Request, ctx: LayoutContext<Data, State>) {
   if (!ctx.state.session) {
     return new Response(null, {
       status: 303,
@@ -33,9 +34,11 @@ export default async function Lists(req: Request, ctx: HandlerContext<Data, Stat
 
   return (
     <Dashboard user={user} lists={sortedLists}>
-      <div class="p-4">
-        <p>Welcome! Add a new list or select an existing one to see its items!</p>
-      </div>
+      <ctx.Component />
     </Dashboard>
   )
+}
+
+export const config: RouteConfig = {
+  skipInheritedLayouts: true,
 }

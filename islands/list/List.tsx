@@ -7,12 +7,12 @@ import EllipsisHorizontalIcon from 'components/icons/EllipsisHorizontal.tsx'
 import PencilIcon from 'components/icons/PencilIcon.tsx'
 import PlusIcon from 'components/icons/PlusIcon.tsx'
 import XMarkIcon from 'components/icons/XMarkIcon.tsx'
+import TrashIcon from 'components/icons/TrashIcon.tsx'
 import { Message } from 'islands/Misc.tsx'
 import { Fragment, JSX } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useDataSubscription } from 'utils/hooks.ts'
 import type { List } from 'utils/types.ts'
-import TrashIcon from '../../components/icons/TrashIcon.tsx'
 
 interface ListProps {
   list: List
@@ -243,7 +243,7 @@ export function NewListForm(props: NewListFormProps) {
 
     if (props.lists.some((list) => list.name === newListName)) {
       setError(
-        `You already have a list with the name "${newListName}". Please choose another name.`,
+        `You already have a list with the name "${newListName}". Please choose another name.`
       )
       return
     }

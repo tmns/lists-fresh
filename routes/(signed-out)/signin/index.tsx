@@ -22,7 +22,7 @@ export default async function Signin(req: Request, ctx: HandlerContext<Data, Sta
   }
 
   return (
-    <main class="flex flex-col items-center justify-center gap-12 px-4 py-16">
+    <>
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-sky-100">
           Sign in to your account
@@ -41,6 +41,6 @@ export default async function Signin(req: Request, ctx: HandlerContext<Data, Sta
           <OAuthOptions />
         </div>
       </div>
-    </main>
+    </>
   )
 }

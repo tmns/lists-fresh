@@ -4,13 +4,13 @@ import PencilIcon from 'components/icons/PencilIcon.tsx'
 import PlusIcon from 'components/icons/PlusIcon.tsx'
 import TrashIcon from 'components/icons/TrashIcon.tsx'
 import XMarkIcon from 'components/icons/XMarkIcon.tsx'
+import ClipboardDocumentCheckIcon from 'components/icons/ClipboardDocumentCheckIcon.tsx'
+import ClipboardDocumentIcon from 'components/icons/ClipboardDocumentIcon.tsx'
 import { Message } from 'islands/Misc.tsx'
 import { JSX } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useDataSubscription } from 'utils/hooks.ts'
 import { Item } from 'utils/types.ts'
-import ClipboardDocumentCheckIcon from '../../components/icons/ClipboardDocumentCheckIcon.tsx'
-import ClipboardDocumentIcon from '../../components/icons/ClipboardDocumentIcon.tsx'
 
 type ItemProps = {
   item: Item
@@ -42,7 +42,7 @@ export function Item(props: ItemProps) {
 
     if (props.items.some((item) => item.title === editedTitle)) {
       setError(
-        `You already have an item with the title "${editedTitle}". Try choosing a different title.`,
+        `You already have an item with the title "${editedTitle}". Try choosing a different title.`
       )
       return
     }
@@ -301,7 +301,7 @@ export function NewItemForm(props: NewItemFormProps) {
 
     if (props.items.some((item) => item.title === newItemTitle)) {
       setError(
-        `You already have an item with the title "${newItemTitle}". Please choose another name.`,
+        `You already have an item with the title "${newItemTitle}". Please choose another name.`
       )
       return
     }
